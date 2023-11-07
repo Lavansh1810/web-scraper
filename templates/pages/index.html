@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .result-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            display: inline-block;
+        }
+
+        .product-image {
+            max-width: 150px;
+            min-weight: 100px;
+            max-height: 200px; /* Set a maximum height for the image */
+            min-height : 180px;
+            height : 200px;
+            width : 150px;
+            float : right;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+        }
+
+        .star-rating {
+        font-size: 24px; /* Adjust the font size to change the size of the stars */
+        color: #ffd700; /* Color of filled stars */
+        }
+
+        .star {
+        display: inline-block;
+        margin-right: 5px; /* Adjust the spacing between stars */
+        }
+
+        .filled {
+        color: #ffd700; /* Color of filled stars */
+        }
+
+        .half-filled {
+        position: relative;
+        color: #ffd700; /* Color of filled stars */
+        overflow: hidden;
+        width: 50%; /* Adjust the width to control the filling of the star */
+        }
+
+        .bold-blue-text {
+            font-weight: bold;
+            color: blue;
+        }
+
+
+
+        
+
+    </style>
+    <title>Price Comparison</title>
+</head>
+<body style="background-color: #f0f0f0;">
+    <div class="container mt-5">
+        <h1 class="text-center">Price Comparison</h1>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% if key %}
+                        <input type="text" id="searchInput" class="form-control" placeholder="Enter a product" name='key' value={{key}}>
+                        {% else %}
+                        <input type="text" id="searchInput" class="form-control" placeholder="Enter a product" name='key'>
+                        {% endif %}
+                    </div>
+                    <button id="searchButton" class="btn btn-primary btn-block">Search</button>
+                </form>
+            </div>
+        </div>
+
+        {% if time %}
+
+        <div class="row mt-4">
+            <p> It took <span class="bold-blue-text">{{time}} seconds</span> to get results. </p>
+        </div>
+
+
+        {% endif %}
+
+        <div class="row mt-4">
+
+            
+
+            <div class="col-md-4">
+                <h2>Amazon</h2>
+
+                {% comment %} Card  {% endcomment %}
+
+                {% for amzn in amazon %}
+                    <div class="result-card">
+                        <img src="{{ amzn.image_link }}" class="product-image">
+                        <h5>{{ amzn.name|truncatechars:30 }}</h5>
+                        <p>Price: {{ amzn.price }}</p>
+                        <a href="{{ amzn.link }}" class="btn btn-primary" target='_blank'>Buy</a>
+                        <p>Review: {{ amzn.rating }}</p>
+                    </div>
+                {% endfor %}
+
+                {% comment %} End Card  {% endcomment %}
+    
+            </div>
+
+            <div class="col-md-4">
+                <h2>Flipkart</h2>
+
+                {% comment %} Card  {% endcomment %}
+
+                {% for flip in flipkart %}
+                    <div class="result-card">
+                        <img src="{{ flip.image_link }}" class="product-image">
+                        <h5>{{ flip.name|truncatechars:30 }}</h5>
+                        <p>Price: {{ flip.price }}</p>
+                        <a href="{{ flip.link }}" class="btn btn-primary" target='_blank'>Buy</a>
+                        <p>Review: {{ flip.rating }}</p>
+                    </div>
+                {% endfor %}
+
+                {% comment %} End Card  {% endcomment %}
+
+            </div>
+
+            <div class="col-md-4">
+                <h2>Jio Mart</h2>
+
+                {% comment %} Card  {% endcomment %}
+
+                {% for jio in jiomart %}
+                    <div class="result-card">
+                        <img src="{{ jio.image_link }}" class="product-image">
+                        <h5>{{ jio.name|truncatechars:30 }}</h5>
+                        <p>Price: {{ jio.price }}</p>
+                        <a href="{{ jio.link }}" class="btn btn-primary" target='_blank'>Buy</a>
+                        <p>Review: {{ jio.rating }}</p>
+                    </div>
+                {% endfor %}
+
+                {% comment %} End Card  {% endcomment %}
+
+            </div>
+           
+        </div>
+    </div>
+
+   
+
+</body>
+</html>
